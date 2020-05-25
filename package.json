@@ -1,0 +1,14 @@
+{
+  "name": "buble-sort",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "serve"
+  },
+  "author": "JJ",
+  "license": "ISC",
+  "devDependencies": {
+    "server": "^1.0.27"
+  }
+}
