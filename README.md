@@ -1,6 +1,6 @@
 # Sorting visualizer
 
-Visualise bubble sort algorithm
+Visualise different sorting algorithms
 
 ### How to run
 
@@ -8,16 +8,7 @@ npm i
 
 npm run dev
 
-### Bubble sort
+### Visualizers
 
-#### Before sorting
-
-![Image description](screenshots/bubble-sort/1.PNG)
-
-#### Sorting in progress
-
-![Image description](screenshots/bubble-sort/2.PNG)
-
-#### After sorting
-
-![Image description](screenshots/bubble-sort/3.PNG)
+1. Bubble sort
+2. Quick sort
