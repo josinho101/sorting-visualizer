@@ -1,20 +1,23 @@
-# Bubble sort visualizer
+# Sorting visualizer
 
 Visualise bubble sort algorithm
 
 ### How to run
 
-  npm i
+npm i
 
-  npm run dev
+npm run dev
 
-### Screenshots
+### Bubble sort
 
 #### Before sorting
-![Image description](Images/1.PNG)
+
+![Image description](screenshots/bubble-sort/1.PNG)
 
 #### Sorting in progress
-![Image description](Images/2.PNG)
+
+![Image description](screenshots/bubble-sort/2.PNG)
 
 #### After sorting
-![Image description](Images/3.PNG)
+
+![Image description](screenshots/bubble-sort/3.PNG)

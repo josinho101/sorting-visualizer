@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Bubble sort</title>
+    <style>
+      .grid {
+        background-color: black;
+      }
+    </style>
+    <script src="./bubblesort-visualizer.js"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        let options = {
+          elementId: "grid",
+          gridHeight: 200,
+          gridWidth: 400,
+          gridItemWidth: 10,
+        };
+        bubbleSortVisualizer.setGrid(options);
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="grid"></div>
+  </body>
+</html>
