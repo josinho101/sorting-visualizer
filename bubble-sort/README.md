@@ -1,6 +1,6 @@
 # Bubble sort visualizer
 
-Visualise bubble sort algorithm
+Visualize bubble sort algorithm
 
 ### Screenshots
 
