@@ -3,10 +3,12 @@ import * as enums from "../../enums";
 import settings from "../../appsettings";
 import StageControls from "./stagecontrols";
 import ItemContainer from "./itemcontainer";
-import SortingHelper from "../../helpers/sortinghelper";
+import SortingEngine from "../../helpers/sorting/sortingengine";
+import SortingHelper from "../../helpers/sorting/sortinghelper";
 
 interface State {
   renderedOn: number;
+  sortingInProgress: boolean;
 }
 
 interface Props {}
@@ -38,6 +40,10 @@ class Stage extends React.Component<Props, State> {
    */
   constructor(props: Props, state: State) {
     super(props, state);
+    this.state = {
+      renderedOn: 0,
+      sortingInProgress: false,
+    };
     this.sortingAlgorithm = enums.Algorithms.BubbleSort;
     this.setItemWidth();
     this.generateRandomArray();
@@ -56,6 +62,7 @@ class Stage extends React.Component<Props, State> {
           resetArray={this.resetArray}
           onItemWidthChange={this.onItemWidthChange}
           onAlgorithmSelected={this.onAlgorithmSelected}
+          sortingInProgress={this.state.sortingInProgress}
         />
         <ItemContainer
           items={this.arrayToSort}
@@ -70,14 +77,21 @@ class Stage extends React.Component<Props, State> {
    * start array sorting
    */
   private startSorting = (e: React.MouseEvent<HTMLElement>) => {
-    console.log("start button clicked !!!");
+    try {
+      let sortingEngine = new SortingEngine(this.arrayToSort);
+      sortingEngine.sort(this.sortingAlgorithm);
+      this.setState({ sortingInProgress: true });
+    } catch (e) {
+      this.setState({ sortingInProgress: false });
+      console.error(e);
+    }
   };
 
   /**
    * stop array sorting
    */
   private stopSorting = (e: React.MouseEvent<HTMLElement>) => {
-    console.log("stop button clicked !!!");
+    this.setState({ sortingInProgress: false });
   };
 
   /**

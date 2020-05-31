@@ -6,6 +6,7 @@ import classNames from "classnames";
 
 interface Props {
   selectedAlgorithm: enums.Algorithms;
+  sortingInProgress: boolean;
   resetArray: (event: React.MouseEvent<HTMLElement>) => void;
   startSorting: (event: React.MouseEvent<HTMLElement>) => void;
   stopSorting: (event: React.MouseEvent<HTMLElement>) => void;
@@ -27,6 +28,7 @@ const StageControls: React.SFC<Props> = (props) => {
       <li
         className={classNames({
           active: props.selectedAlgorithm === algorithm,
+          disable: props.sortingInProgress,
         })}
       >
         <a
@@ -48,6 +50,7 @@ const StageControls: React.SFC<Props> = (props) => {
             <button
               className="btn btn-primary navbar-btn right-margin16px"
               onClick={props.resetArray}
+              disabled={props.sortingInProgress}
             >
               Reset
             </button>
@@ -60,6 +63,7 @@ const StageControls: React.SFC<Props> = (props) => {
               max={itemWidthRangeOptions.max}
               defaultValue={itemWidthRangeOptions.default}
               onChange={props.onItemWidthChange}
+              disabled={props.sortingInProgress}
             />
           </li>
         </ul>
@@ -73,6 +77,7 @@ const StageControls: React.SFC<Props> = (props) => {
             <button
               onClick={props.startSorting}
               className="btn btn-success navbar-btn right-margin16px left-margin16px"
+              disabled={props.sortingInProgress}
             >
               Start
             </button>
