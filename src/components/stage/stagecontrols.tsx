@@ -1,19 +1,43 @@
 import React from "react";
-import { RangeOptions } from "./typings/rangeoptions";
+import * as enums from "../../enums";
 import settings from "../../appsettings";
+import { RangeOptions } from "./typings/rangeoptions";
+import classNames from "classnames";
 
 interface Props {
+  selectedAlgorithm: enums.Algorithms;
   resetArray: (event: React.MouseEvent<HTMLElement>) => void;
   startSorting: (event: React.MouseEvent<HTMLElement>) => void;
   stopSorting: (event: React.MouseEvent<HTMLElement>) => void;
   onItemWidthChange: (event: React.ChangeEvent<HTMLElement>) => void;
+  onAlgorithmSelected: (algorithm: enums.Algorithms) => void;
 }
 
 const StageControls: React.SFC<Props> = (props) => {
+  // options for item width range selector
   const itemWidthRangeOptions: RangeOptions = {
     default: settings.itemWidth.default,
     min: settings.itemWidth.min,
     max: settings.itemWidth.max,
+  };
+
+  // generate nav item
+  const getNavItem = (text: string, algorithm: enums.Algorithms) => {
+    return (
+      <li
+        className={classNames({
+          active: props.selectedAlgorithm === algorithm,
+        })}
+      >
+        <a
+          onClick={() => props.onAlgorithmSelected(algorithm)}
+          href="#"
+          data-id={algorithm}
+        >
+          {text}
+        </a>
+      </li>
+    );
   };
 
   return (
@@ -40,15 +64,9 @@ const StageControls: React.SFC<Props> = (props) => {
           </li>
         </ul>
         <ul className="nav navbar-nav">
-          <li className="active">
-            <a href="#">Bubble sort</a>
-          </li>
-          <li>
-            <a href="#">Quick sort</a>
-          </li>
-          <li>
-            <a href="#">Merge sort</a>
-          </li>
+          {getNavItem("Bubble sort", enums.Algorithms.BubbleSort)}
+          {getNavItem("Quick sort", enums.Algorithms.QuickSort)}
+          {getNavItem("Merge sort", enums.Algorithms.MergeSort)}
         </ul>
         <ul className="nav navbar-nav">
           <li>

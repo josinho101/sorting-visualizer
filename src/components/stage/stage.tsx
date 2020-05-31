@@ -1,8 +1,9 @@
 import React from "react";
+import * as enums from "../../enums";
+import settings from "../../appsettings";
 import StageControls from "./stagecontrols";
 import ItemContainer from "./itemcontainer";
 import SortingHelper from "../../helpers/sortinghelper";
-import settings from "../../appsettings";
 
 interface State {
   renderedOn: number;
@@ -29,11 +30,15 @@ class Stage extends React.Component<Props, State> {
   // height of stage
   private stageHeight = 400;
 
+  // sorting algorithm
+  private sortingAlgorithm: enums.Algorithms;
+
   /**
    * constructor of stage
    */
   constructor(props: Props, state: State) {
     super(props, state);
+    this.sortingAlgorithm = enums.Algorithms.BubbleSort;
     this.setItemWidth();
     this.generateRandomArray();
   }
@@ -45,10 +50,12 @@ class Stage extends React.Component<Props, State> {
     return (
       <div className="stage">
         <StageControls
+          selectedAlgorithm={this.sortingAlgorithm}
           startSorting={this.startSorting}
           stopSorting={this.stopSorting}
           resetArray={this.resetArray}
           onItemWidthChange={this.onItemWidthChange}
+          onAlgorithmSelected={this.onAlgorithmSelected}
         />
         <ItemContainer
           items={this.arrayToSort}
@@ -71,6 +78,14 @@ class Stage extends React.Component<Props, State> {
    */
   private stopSorting = (e: React.MouseEvent<HTMLElement>) => {
     console.log("stop button clicked !!!");
+  };
+
+  /**
+   * triggered when algorithm selection is changed
+   */
+  private onAlgorithmSelected = (algorithm: enums.Algorithms) => {
+    this.sortingAlgorithm = algorithm;
+    this.setState({ renderedOn: Date.now() });
   };
 
   /**
