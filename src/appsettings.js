@@ -6,6 +6,16 @@ var settings = {
     min: 1,
     max: 7,
   },
+  sortingSpeed: {
+    default: 7,
+    min: 1,
+    max: 10,
+  },
+  itemColor: {
+    sorted: "#7bd475",
+    notSorted: "#01d0df",
+    current: "#f73838",
+  },
 };
 
 export default settings;

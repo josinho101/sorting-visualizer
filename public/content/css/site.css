@@ -46,3 +46,9 @@
 .disable {
   pointer-events: none;
 }
+
+.total {
+  position: absolute;
+  margin-top: -15px;
+  font-weight: bold;
+}

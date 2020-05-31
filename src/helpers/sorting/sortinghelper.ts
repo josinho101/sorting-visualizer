@@ -30,6 +30,14 @@ class SortingHelper {
   };
 
   /**
+   * return sorting speed
+   */
+  public static getSortingSpeed = (index: number) => {
+    let speed = [250, 200, 150, 100, 75, 50, 35, 25, 10, 1];
+    return speed[index - 1];
+  };
+
+  /**
    * sleep for the specified amount of time
    */
   public static sleep = (milliseconds: number) => {

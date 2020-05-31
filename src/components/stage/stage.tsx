@@ -28,6 +28,9 @@ class Stage extends React.Component<Props, State> {
   // total items to sort
   private itemCount = 0;
 
+  // sorting speed
+  private sortingSpeed = 0;
+
   // width of stage
   private stageWidth = 800;
 
@@ -36,6 +39,9 @@ class Stage extends React.Component<Props, State> {
 
   // sorting algorithm
   private sortingAlgorithm: enums.Algorithms;
+
+  // flag to hold if reset done after sorting
+  private resetDone: boolean;
 
   /**
    * constructor of stage
@@ -48,7 +54,9 @@ class Stage extends React.Component<Props, State> {
       removeItems: false,
     };
     this.sortingAlgorithm = enums.Algorithms.BubbleSort;
+    this.resetDone = true;
     this.setItemWidth();
+    this.setSortingSpeed();
     this.generateRandomArray();
   }
 
@@ -64,9 +72,11 @@ class Stage extends React.Component<Props, State> {
           stopSorting={this.stopSorting}
           resetArray={this.resetArray}
           onItemWidthChange={this.onItemWidthChange}
+          onSortingSpeedChange={this.onSortingSpeedChange}
           onAlgorithmSelected={this.onAlgorithmSelected}
           sortingInProgress={this.state.sortingInProgress}
         />
+        <p className="total">Total items to sort: {this.arrayToSort.length}</p>
         {!this.state.removeItems ? (
           <ItemContainer
             items={this.arrayToSort}
@@ -85,10 +95,12 @@ class Stage extends React.Component<Props, State> {
     try {
       let options = {
         itemWidth: this.itemWidth,
+        getSortingSpeed: this.getSortingSpeed,
       } as SortOptions;
       let sortingEngine = new SortingEngine(this.arrayToSort);
 
       this.setState({ sortingInProgress: true }, async () => {
+        this.resetDone = false;
         await sortingEngine.sort(this.sortingAlgorithm, options);
         this.setState({ sortingInProgress: false });
       });
@@ -118,6 +130,7 @@ class Stage extends React.Component<Props, State> {
    */
   private resetArray = (e: React.MouseEvent<HTMLElement>) => {
     this.generateRandomArray();
+    this.resetDone = true;
     this.setState({ removeItems: true }, () => {
       setTimeout(() => {
         this.setState({ removeItems: false });
@@ -126,14 +139,39 @@ class Stage extends React.Component<Props, State> {
   };
 
   /**
+   * get sorting speed
+   */
+  private getSortingSpeed = (): number => {
+    return this.sortingSpeed;
+  };
+
+  /**
    * start array sorting
    */
   private onItemWidthChange = (e: React.ChangeEvent<HTMLElement>) => {
+    if (!this.resetDone) {
+      this.resetDone = true;
+      this.generateRandomArray();
+      this.setState({ removeItems: true }, () => {
+        setTimeout(() => {
+          this.setState({ removeItems: false });
+        }, 10);
+      });
+    }
     let target: any = e.target;
     this.itemWidth = SortingHelper.getItemWidth(parseInt(target.value));
     this.setItemWidth();
     this.arrayToSort = this.rawArray.slice(0, this.itemCount);
     this.setState({ renderedOn: Date.now() });
+  };
+
+  /**
+   * trigger when sorting speed is changed
+   */
+  private onSortingSpeedChange = (e: React.ChangeEvent<HTMLElement>) => {
+    let target: any = e.target;
+    let weight = parseInt(target.value);
+    this.setSortingSpeed(weight);
   };
 
   /**
@@ -153,6 +191,15 @@ class Stage extends React.Component<Props, State> {
     this.rawArray = SortingHelper.generateRandomArray(400, 1, this.stageHeight);
     this.arrayToSort = [...this.rawArray];
     this.arrayToSort = this.rawArray.slice(0, this.itemCount);
+  };
+
+  /**
+   * set sorting speed
+   */
+  private setSortingSpeed = (index = 0) => {
+    this.sortingSpeed = SortingHelper.getSortingSpeed(
+      index === 0 ? settings.sortingSpeed.default : index
+    );
   };
 }
 

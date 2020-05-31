@@ -11,6 +11,7 @@ interface Props {
   startSorting: (event: React.MouseEvent<HTMLElement>) => void;
   stopSorting: (event: React.MouseEvent<HTMLElement>) => void;
   onItemWidthChange: (event: React.ChangeEvent<HTMLElement>) => void;
+  onSortingSpeedChange: (event: React.ChangeEvent<HTMLElement>) => void;
   onAlgorithmSelected: (algorithm: enums.Algorithms) => void;
 }
 
@@ -20,6 +21,13 @@ const StageControls: React.SFC<Props> = (props) => {
     default: settings.itemWidth.default,
     min: settings.itemWidth.min,
     max: settings.itemWidth.max,
+  };
+
+  // options for sorting speed range selector
+  const speedRangeOptions: RangeOptions = {
+    default: settings.sortingSpeed.default,
+    min: settings.sortingSpeed.min,
+    max: settings.sortingSpeed.max,
   };
 
   // generate nav item
@@ -92,7 +100,13 @@ const StageControls: React.SFC<Props> = (props) => {
           </li>
           <li className="range">
             <p>Sorting speed</p>
-            <input type="range" />
+            <input
+              type="range"
+              min={speedRangeOptions.min}
+              max={speedRangeOptions.max}
+              defaultValue={speedRangeOptions.default}
+              onChange={props.onSortingSpeedChange}
+            />
           </li>
         </ul>
       </div>

@@ -1,4 +1,5 @@
 import ISortEngine from "./isortengine";
+import appsettings from "../../appsettings";
 import SortingHelper from "./sortinghelper";
 import ItemElementMap from "./typings/itemelementmap";
 import SortOptions from "../../components/stage/typings/sortoptions";
@@ -23,6 +24,8 @@ class BubbleSortEngine implements ISortEngine {
    */
   public sort = async () => {
     let n = this.array.length - 1;
+    let color = appsettings.itemColor;
+
     for (let i = 0; i <= n; i++) {
       if (i < n) {
         for (let j = 0; j < n - i; j++) {
@@ -38,20 +41,20 @@ class BubbleSortEngine implements ISortEngine {
             item1.totalTranlation += this.options.itemWidth + 1;
             item2.totalTranlation -= this.options.itemWidth + 1;
 
-            item1.element.style.backgroundColor = "#f73838";
+            item1.element.style.backgroundColor = color.current;
 
-            await SortingHelper.sleep(0);
+            await SortingHelper.sleep(this.options.getSortingSpeed());
 
             item1.element.style.left = `${item1.totalTranlation}px`;
             item2.element.style.left = `${item2.totalTranlation}px`;
 
-            item1.element.style.backgroundColor = "#01d0df";
+            item1.element.style.backgroundColor = color.notSorted;
           }
         }
       }
 
       let sortedItem = this.array[n - i];
-      sortedItem.element.style.backgroundColor = "#7bd475";
+      sortedItem.element.style.backgroundColor = color.sorted;
     }
   };
 }
