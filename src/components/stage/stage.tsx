@@ -92,21 +92,23 @@ class Stage extends React.Component<Props, State> {
    * start array sorting
    */
   private startSorting = (e: React.MouseEvent<HTMLElement>) => {
-    try {
-      let options = {
-        itemWidth: this.itemWidth,
-        getSortingSpeed: this.getSortingSpeed,
-      } as SortOptions;
-      let sortingEngine = new SortingEngine(this.arrayToSort);
+    if (this.resetDone) {
+      try {
+        let options = {
+          itemWidth: this.itemWidth,
+          getSortingSpeed: this.getSortingSpeed,
+        } as SortOptions;
+        let sortingEngine = new SortingEngine(this.arrayToSort);
 
-      this.setState({ sortingInProgress: true }, async () => {
-        this.resetDone = false;
-        await sortingEngine.sort(this.sortingAlgorithm, options);
+        this.setState({ sortingInProgress: true }, async () => {
+          this.resetDone = false;
+          await sortingEngine.sort(this.sortingAlgorithm, options);
+          this.setState({ sortingInProgress: false });
+        });
+      } catch (e) {
         this.setState({ sortingInProgress: false });
-      });
-    } catch (e) {
-      this.setState({ sortingInProgress: false });
-      console.error(e);
+        console.error(e);
+      }
     }
   };
 
@@ -129,13 +131,7 @@ class Stage extends React.Component<Props, State> {
    * reset array for sorting
    */
   private resetArray = (e: React.MouseEvent<HTMLElement>) => {
-    this.generateRandomArray();
-    this.resetDone = true;
-    this.setState({ removeItems: true }, () => {
-      setTimeout(() => {
-        this.setState({ removeItems: false });
-      }, 10);
-    });
+    this.reset();
   };
 
   /**
@@ -146,17 +142,24 @@ class Stage extends React.Component<Props, State> {
   };
 
   /**
+   * reset array
+   */
+  private reset = () => {
+    this.resetDone = true;
+    this.generateRandomArray();
+    this.setState({ removeItems: true }, () => {
+      setTimeout(() => {
+        this.setState({ removeItems: false });
+      }, 10);
+    });
+  };
+
+  /**
    * start array sorting
    */
   private onItemWidthChange = (e: React.ChangeEvent<HTMLElement>) => {
     if (!this.resetDone) {
-      this.resetDone = true;
-      this.generateRandomArray();
-      this.setState({ removeItems: true }, () => {
-        setTimeout(() => {
-          this.setState({ removeItems: false });
-        }, 10);
-      });
+      this.reset();
     }
     let target: any = e.target;
     this.itemWidth = SortingHelper.getItemWidth(parseInt(target.value));
