@@ -2,12 +2,16 @@ class SortingHelper {
   /**
    * generate random array based on the length
    */
-  public static generateRandomArray = (length: number, max: number) => {
+  public static generateRandomArray = (
+    length: number,
+    min: number,
+    max: number
+  ) => {
     return Array.from(
       {
         length: length,
       },
-      () => Math.floor(Math.random() * max)
+      () => min + Math.floor(Math.random() * (max - min + 1))
     );
   };
 

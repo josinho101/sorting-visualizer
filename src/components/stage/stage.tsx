@@ -121,7 +121,7 @@ class Stage extends React.Component<Props, State> {
    * generate random array
    */
   private generateRandomArray = () => {
-    this.rawArray = SortingHelper.generateRandomArray(400, this.stageHeight);
+    this.rawArray = SortingHelper.generateRandomArray(400, 1, this.stageHeight);
     this.arrayToSort = [...this.rawArray];
     this.arrayToSort = this.rawArray.slice(0, this.itemCount);
   };
