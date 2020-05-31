@@ -3,12 +3,14 @@ import * as enums from "../../enums";
 import settings from "../../appsettings";
 import StageControls from "./stagecontrols";
 import ItemContainer from "./itemcontainer";
+import SortOptions from "./typings/sortoptions";
 import SortingEngine from "../../helpers/sorting/sortingengine";
 import SortingHelper from "../../helpers/sorting/sortinghelper";
 
 interface State {
   renderedOn: number;
   sortingInProgress: boolean;
+  removeItems: boolean;
 }
 
 interface Props {}
@@ -43,6 +45,7 @@ class Stage extends React.Component<Props, State> {
     this.state = {
       renderedOn: 0,
       sortingInProgress: false,
+      removeItems: false,
     };
     this.sortingAlgorithm = enums.Algorithms.BubbleSort;
     this.setItemWidth();
@@ -64,11 +67,13 @@ class Stage extends React.Component<Props, State> {
           onAlgorithmSelected={this.onAlgorithmSelected}
           sortingInProgress={this.state.sortingInProgress}
         />
-        <ItemContainer
-          items={this.arrayToSort}
-          maxHeight={this.stageHeight}
-          itemWidth={this.itemWidth}
-        />
+        {!this.state.removeItems ? (
+          <ItemContainer
+            items={this.arrayToSort}
+            maxHeight={this.stageHeight}
+            itemWidth={this.itemWidth}
+          />
+        ) : null}
       </div>
     );
   }
@@ -78,9 +83,15 @@ class Stage extends React.Component<Props, State> {
    */
   private startSorting = (e: React.MouseEvent<HTMLElement>) => {
     try {
+      let options = {
+        itemWidth: this.itemWidth,
+      } as SortOptions;
       let sortingEngine = new SortingEngine(this.arrayToSort);
-      sortingEngine.sort(this.sortingAlgorithm);
-      this.setState({ sortingInProgress: true });
+
+      this.setState({ sortingInProgress: true }, async () => {
+        await sortingEngine.sort(this.sortingAlgorithm, options);
+        this.setState({ sortingInProgress: false });
+      });
     } catch (e) {
       this.setState({ sortingInProgress: false });
       console.error(e);
@@ -107,7 +118,11 @@ class Stage extends React.Component<Props, State> {
    */
   private resetArray = (e: React.MouseEvent<HTMLElement>) => {
     this.generateRandomArray();
-    this.setState({ renderedOn: Date.now() });
+    this.setState({ removeItems: true }, () => {
+      setTimeout(() => {
+        this.setState({ removeItems: false });
+      }, 10);
+    });
   };
 
   /**

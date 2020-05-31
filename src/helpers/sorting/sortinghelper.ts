@@ -18,15 +18,22 @@ class SortingHelper {
   /**
    * return item width in pixel
    */
-  public static getItemWidth = (weight: number): number => {
+  public static getItemWidth = (sizeIndex: number): number => {
     // width of each item will be the value + 1px margin
     // example if width is 3 then item width will be 49 + 1 = 4
-    let itemWidth = [1, 3, 4, 9, 19, 39, 49];
-    if (weight > itemWidth.length) {
-      throw Error("Weight not valid for item width");
+    let itemSize = [1, 3, 4, 9, 19, 39, 49];
+    if (sizeIndex > itemSize.length) {
+      throw Error("Size index not valid for item width");
     }
 
-    return itemWidth[weight - 1];
+    return itemSize[sizeIndex - 1];
+  };
+
+  /**
+   * sleep for the specified amount of time
+   */
+  public static sleep = (milliseconds: number) => {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
   };
 }
 
