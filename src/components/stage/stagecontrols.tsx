@@ -1,5 +1,6 @@
 import React from "react";
 import { RangeOptions } from "./typings/rangeoptions";
+import settings from "../../appsettings";
 
 interface Props {
   resetArray: (event: React.MouseEvent<HTMLElement>) => void;
@@ -10,9 +11,9 @@ interface Props {
 
 const StageControls: React.SFC<Props> = (props) => {
   const itemWidthRangeOptions: RangeOptions = {
-    default: 10,
-    min: 1,
-    max: 50,
+    default: settings.itemWidth.default,
+    min: settings.itemWidth.min,
+    max: settings.itemWidth.max,
   };
 
   return (

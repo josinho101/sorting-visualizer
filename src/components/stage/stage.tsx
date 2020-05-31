@@ -2,6 +2,7 @@ import React from "react";
 import StageControls from "./stagecontrols";
 import ItemContainer from "./itemcontainer";
 import SortingHelper from "../../helpers/sortinghelper";
+import settings from "../../appsettings";
 
 interface State {
   renderedOn: number;
@@ -13,12 +14,28 @@ class Stage extends React.Component<Props, State> {
   // array to sort
   private arrayToSort: number[] = [];
 
+  // original array
+  private rawArray: number[] = [];
+
+  // width of an item in stage
+  private itemWidth = 0;
+
+  // total items to sort
+  private itemCount = 0;
+
+  // width of stage
+  private stageWidth = 800;
+
+  // height of stage
+  private stageHeight = 400;
+
   /**
    * constructor of stage
    */
   constructor(props: Props, state: State) {
     super(props, state);
-    this.arrayToSort = SortingHelper.generateRandomArray(80, 400);
+    this.setItemWidth();
+    this.generateRandomArray();
   }
 
   /**
@@ -33,7 +50,11 @@ class Stage extends React.Component<Props, State> {
           resetArray={this.resetArray}
           onItemWidthChange={this.onItemWidthChange}
         />
-        <ItemContainer items={this.arrayToSort} maxHeight={400} />
+        <ItemContainer
+          items={this.arrayToSort}
+          maxHeight={this.stageHeight}
+          itemWidth={this.itemWidth}
+        />
       </div>
     );
   }
@@ -56,7 +77,7 @@ class Stage extends React.Component<Props, State> {
    * reset array for sorting
    */
   private resetArray = (e: React.MouseEvent<HTMLElement>) => {
-    this.arrayToSort = SortingHelper.generateRandomArray(80, 400);
+    this.generateRandomArray();
     this.setState({ renderedOn: Date.now() });
   };
 
@@ -65,7 +86,29 @@ class Stage extends React.Component<Props, State> {
    */
   private onItemWidthChange = (e: React.ChangeEvent<HTMLElement>) => {
     let target: any = e.target;
-    console.log(`Current item width ${target.value}`);
+    this.itemWidth = SortingHelper.getItemWidth(parseInt(target.value));
+    this.setItemWidth();
+    this.arrayToSort = this.rawArray.slice(0, this.itemCount);
+    this.setState({ renderedOn: Date.now() });
+  };
+
+  /**
+   * set width of item
+   */
+  private setItemWidth = () => {
+    if (this.itemCount === 0) {
+      this.itemWidth = SortingHelper.getItemWidth(settings.itemWidth.default);
+    }
+    this.itemCount = this.stageWidth / (this.itemWidth + 1);
+  };
+
+  /**
+   * generate random array
+   */
+  private generateRandomArray = () => {
+    this.rawArray = SortingHelper.generateRandomArray(400, this.stageHeight);
+    this.arrayToSort = [...this.rawArray];
+    this.arrayToSort = this.rawArray.slice(0, this.itemCount);
   };
 }
 
