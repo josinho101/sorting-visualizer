@@ -43,6 +43,15 @@ class SortingHelper {
   public static sleep = (milliseconds: number) => {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
   };
+
+  /**
+   * swap items between index in an array
+   */
+  public static swap = (array: any, index1: number, index2: number) => {
+    let temp = array[index1];
+    array[index1] = array[index2];
+    array[index2] = temp;
+  };
 }
 
 export default SortingHelper;

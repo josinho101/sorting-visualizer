@@ -34,9 +34,7 @@ class BubbleSortEngine implements ISortEngine {
 
           if (item1.value > item2.value) {
             //swap items
-            let temp = this.array[j];
-            this.array[j] = this.array[j + 1];
-            this.array[j + 1] = temp;
+            SortingHelper.swap(this.array, j, j + 1);
 
             item1.totalTranlation += this.options.itemWidth + 1;
             item2.totalTranlation -= this.options.itemWidth + 1;

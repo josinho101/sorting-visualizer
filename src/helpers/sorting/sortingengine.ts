@@ -1,5 +1,6 @@
 import * as enums from "../../enums";
 import ISortEngine from "./isortengine";
+import QuickSortEngine from "./quicksortengine";
 import BubbleSortEngine from "./bubblesortengine";
 import ItemElementMap from "./typings/itemelementmap";
 import SortOptions from "../../components/stage/typings/sortoptions";
@@ -61,6 +62,9 @@ class SortingEngine {
     switch (algorithm) {
       case enums.Algorithms.BubbleSort:
         engine = new BubbleSortEngine(mappedArray, options);
+        break;
+      case enums.Algorithms.QuickSort:
+        engine = new QuickSortEngine(mappedArray, options);
         break;
       default:
         throw new Error(`Algorithm with id ${algorithm} not yet implemented`);
