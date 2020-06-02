@@ -12,9 +12,17 @@ var settings = {
     max: 10,
   },
   itemColor: {
-    sorted: "#7bd475",
-    notSorted: "#01d0df",
-    current: "#f73838",
+    bubbleSort: {
+      sorted: "#7bd475",
+      notSorted: "#01d0df",
+      current: "#f73838",
+    },
+    quickSort: {
+      pivot: "#f579f5",
+      sorted: "#7bd475",
+      current: "#f73838",
+      default: "#01d0df",
+    },
   },
 };
 

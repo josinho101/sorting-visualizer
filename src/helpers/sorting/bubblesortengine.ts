@@ -24,7 +24,7 @@ class BubbleSortEngine implements ISortEngine {
    */
   public sort = async () => {
     let n = this.array.length - 1;
-    let color = appsettings.itemColor;
+    let color = appsettings.itemColor.bubbleSort;
 
     for (let i = 0; i <= n; i++) {
       if (i < n) {
