@@ -19,70 +19,13 @@ class QuickSortEngine implements ISortEngine {
     this.options = options;
   }
 
-  private swap = (array: ItemElementMap[], a: number, b: number) => {
-    let temp = array[a];
-    array[a] = array[b];
-    array[b] = temp;
-  };
   /**
-   * partiotion the array for quick sort
+   * sort and visualize the array sorting
    */
-  private partition = async (
-    array: ItemElementMap[],
-    low: number,
-    high: number
-  ) => {
-    let pivot = array[low].value;
-    let start = low;
-    let end = high;
-    let colors = appsettings.itemColor.quickSort;
-
-    while (start < end) {
-      while (array[start].value <= pivot && start < end) {
-        start++;
-      }
-
-      while (array[end].value > pivot) {
-        end--;
-      }
-
-      if (start < end) {
-        // swap items in UI
-        await this.swapItemsInUI(array, start, end);
-
-        // swap start element with end
-        this.swap(array, start, end);
-      }
-    }
-
-    // swap items in UI
-    await this.swapItemsInUI(array, low, end);
-
-    // swap pivot with end
-    this.swap(array, low, end);
-
-    return end;
-  };
-
-  /**
-   * Swap items in UI
-   */
-  private swapItemsInUI = async (
-    array: ItemElementMap[],
-    item1Index: number,
-    item2Index: number
-  ) => {
-    let pivotItem = array[item1Index];
-    let endItem = array[item2Index];
-
-    let distanceToMove =
-      Math.abs(item1Index - item2Index) * (this.options.itemWidth + 1);
-
-    pivotItem.totalTranlation += distanceToMove;
-    endItem.totalTranlation -= distanceToMove;
-
-    pivotItem.element.style.left = `${pivotItem.totalTranlation}px`;
-    endItem.element.style.left = `${endItem.totalTranlation}px`;
+  public sort = async () => {
+    let low = 0;
+    let high = this.array.length - 1;
+    await this.quickSort(this.array, low, high);
   };
 
   /**
@@ -95,23 +38,83 @@ class QuickSortEngine implements ISortEngine {
   ) => {
     if (low < high) {
       let partitionIndex = await this.partition(array, low, high);
+
       await this.quickSort(array, low, partitionIndex - 1);
+      this.setAsSorted(array, low, partitionIndex);
+
       await this.quickSort(array, partitionIndex + 1, high);
+      this.setAsSorted(array, partitionIndex, high);
     }
   };
 
   /**
-   * sort and visualize the array sorting
+   * partiotion the array for quick sort
    */
-  public sort = async () => {
-    let low = 0;
-    let high = this.array.length - 1;
-    await this.quickSort(this.array, low, high);
+  private partition = async (
+    array: ItemElementMap[],
+    low: number,
+    high: number
+  ) => {
+    let pivot = array[low].value;
+    let start = low;
+    let end = high;
 
-    let array = this.array.map((item: ItemElementMap) => {
-      return item.value;
+    while (start < end) {
+      while (array[start].value <= pivot && start < end) {
+        start++;
+      }
+
+      while (array[end].value > pivot) {
+        end--;
+      }
+
+      if (start < end) {
+        await SortingHelper.sleep(this.options.getSortingSpeed());
+        // swap items in UI
+        await this.swapInUI(array, start, end);
+        // swap start element with end
+        SortingHelper.swap(array, start, end);
+      }
+    }
+
+    await SortingHelper.sleep(this.options.getSortingSpeed());
+    // swap items in UI
+    await this.swapInUI(array, low, end);
+    // swap pivot with end
+    SortingHelper.swap(array, low, end);
+
+    return end;
+  };
+
+  /**
+   * Swap items in UI
+   */
+  private swapInUI = async (
+    array: ItemElementMap[],
+    index1: number,
+    index2: number
+  ) => {
+    let item1 = array[index1];
+    let item2 = array[index2];
+
+    let toMove = Math.abs(index1 - index2) * (this.options.itemWidth + 1);
+
+    SortingHelper.animateToRight(item1.element, item1.totalTranlation, toMove);
+    SortingHelper.animateToLeft(item2.element, item2.totalTranlation, toMove);
+
+    item1.totalTranlation += toMove;
+    item2.totalTranlation -= toMove;
+  };
+
+  /**
+   * set specified from - to index as sorted
+   */
+  private setAsSorted = (array: ItemElementMap[], from: number, to: number) => {
+    let sortedColor = appsettings.itemColor.quickSort.sorted;
+    let sortedItems = array.slice(from, to + 1);
+    sortedItems.forEach((item: ItemElementMap) => {
+      item.element.style.backgroundColor = sortedColor;
     });
-    console.log(array);
   };
 }
 

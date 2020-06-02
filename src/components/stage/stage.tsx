@@ -97,6 +97,7 @@ class Stage extends React.Component<Props, State> {
         let options = {
           itemWidth: this.itemWidth,
           getSortingSpeed: this.getSortingSpeed,
+          continueSorting: this.continueSorting,
         } as SortOptions;
         let sortingEngine = new SortingEngine(this.arrayToSort);
 
@@ -139,6 +140,13 @@ class Stage extends React.Component<Props, State> {
    */
   private getSortingSpeed = (): number => {
     return this.sortingSpeed;
+  };
+
+  /**
+   * return true if its oke to continue sorting.
+   */
+  private continueSorting = (): boolean => {
+    return this.state.sortingInProgress;
   };
 
   /**

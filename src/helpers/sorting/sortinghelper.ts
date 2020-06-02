@@ -52,6 +52,36 @@ class SortingHelper {
     array[index1] = array[index2];
     array[index2] = temp;
   };
+
+  /**
+   * animate element to left by setting left property of css with +ve value
+   */
+  public static animateToRight = (
+    element: HTMLElement,
+    from: number,
+    to: number
+  ) => {
+    for (let i = 1; i <= to; i++) {
+      setTimeout(() => {
+        element.style.left = `${from + i}px`;
+      }, 0);
+    }
+  };
+
+  /**
+   * animate element to right by setting left property of css with 1ve value
+   */
+  public static animateToLeft = (
+    element: HTMLElement,
+    from: number,
+    to: number
+  ) => {
+    for (let i = 1; i <= to; i++) {
+      setTimeout(() => {
+        element.style.left = `${from - i}px`;
+      }, 0);
+    }
+  };
 }
 
 export default SortingHelper;
