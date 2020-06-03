@@ -40,7 +40,7 @@
   text-align: center;
   line-height: 40px;
   font-size: 10px;
-  position: relative;
+  transition: transform 0.001s;
 }
 
 .disable {
