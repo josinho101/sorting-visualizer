@@ -99,11 +99,13 @@ class QuickSortEngine implements ISortEngine {
 
     let toMove = Math.abs(index1 - index2) * (this.options.itemWidth + 1);
 
-    SortingHelper.animateToRight(item1.element, item1.totalTranlation, toMove);
-    SortingHelper.animateToLeft(item2.element, item2.totalTranlation, toMove);
-
     item1.totalTranlation += toMove;
     item2.totalTranlation -= toMove;
+
+    await SortingHelper.animate(item1.element, item1.totalTranlation);
+    await SortingHelper.animate(item2.element, item2.totalTranlation);
+
+    await SortingHelper.sleep(this.options.getSortingSpeed());
   };
 
   /**

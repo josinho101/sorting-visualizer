@@ -36,17 +36,10 @@ class BubbleSortEngine implements ISortEngine {
             //swap items
             SortingHelper.swap(this.array, j, j + 1);
 
-            item1.totalTranlation += this.options.itemWidth + 1;
-            item2.totalTranlation -= this.options.itemWidth + 1;
-
-            item1.element.style.backgroundColor = color.current;
+            // swap ui items
+            await this.swapInUI(item1, item2);
 
             await SortingHelper.sleep(this.options.getSortingSpeed());
-
-            item1.element.style.left = `${item1.totalTranlation}px`;
-            item2.element.style.left = `${item2.totalTranlation}px`;
-
-            item1.element.style.backgroundColor = color.notSorted;
           }
         }
       }
@@ -54,6 +47,18 @@ class BubbleSortEngine implements ISortEngine {
       let sortedItem = this.array[n - i];
       sortedItem.element.style.backgroundColor = color.sorted;
     }
+  };
+
+  /**
+   * swap ui items
+   */
+  private swapInUI = async (item1: ItemElementMap, item2: ItemElementMap) => {
+    let toMove = this.options.itemWidth + 1;
+    item1.totalTranlation += toMove;
+    item2.totalTranlation -= toMove;
+
+    await SortingHelper.animate(item1.element, item1.totalTranlation);
+    await SortingHelper.animate(item2.element, item2.totalTranlation);
   };
 }
 

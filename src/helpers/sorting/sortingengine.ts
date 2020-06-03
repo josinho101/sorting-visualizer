@@ -23,12 +23,17 @@ class SortingEngine {
   /**
    * Get all DOM elements to sort
    */
-  private getItems = () => {
+  private getItems = (options: SortOptions) => {
     let itemContainer = document.getElementsByClassName("item-container")[0];
     let items = itemContainer.getElementsByTagName("div");
 
     if (items.length !== this.arrayToSort.length) {
       throw new Error("DOM element count not matching with array to sort");
+    }
+
+    let speed = options.getSortingSpeed() / 1000;
+    for (let i = 0; i < items.length; i++) {
+      items[i].style.transition = `transform ${speed}s`;
     }
 
     return items;
@@ -37,9 +42,11 @@ class SortingEngine {
   /**
    * Map DOM elements with array to sort based on index
    */
-  private mapArrayWithDOMElements = (): ItemElementMap[] => {
+  private mapArrayWithDOMElements = (
+    options: SortOptions
+  ): ItemElementMap[] => {
     let map: ItemElementMap[] = [];
-    let items = this.getItems();
+    let items = this.getItems(options);
     map = this.arrayToSort.map((item: number, index: number) => {
       let newItem: ItemElementMap = {
         value: item,
@@ -57,7 +64,7 @@ class SortingEngine {
    */
   public sort = async (algorithm: enums.Algorithms, options: SortOptions) => {
     let engine: ISortEngine;
-    let mappedArray = this.mapArrayWithDOMElements();
+    let mappedArray = this.mapArrayWithDOMElements(options);
 
     switch (algorithm) {
       case enums.Algorithms.BubbleSort:

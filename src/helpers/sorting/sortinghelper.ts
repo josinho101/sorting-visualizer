@@ -54,33 +54,15 @@ class SortingHelper {
   };
 
   /**
-   * animate element to left by setting left property of css with +ve value
+   * animate element using translateX
    */
-  public static animateToRight = (
-    element: HTMLElement,
-    from: number,
-    to: number
-  ) => {
-    for (let i = 1; i <= to; i++) {
-      setTimeout(() => {
-        element.style.left = `${from + i}px`;
-      }, 0);
-    }
-  };
-
-  /**
-   * animate element to right by setting left property of css with 1ve value
-   */
-  public static animateToLeft = (
-    element: HTMLElement,
-    from: number,
-    to: number
-  ) => {
-    for (let i = 1; i <= to; i++) {
-      setTimeout(() => {
-        element.style.left = `${from - i}px`;
-      }, 0);
-    }
+  public static animate = (element: HTMLElement, x: number) => {
+    new Promise((resolve) => {
+      element.style.transform = `translateX(${x}px)`;
+      element.ontransitionend = () => {
+        resolve();
+      };
+    });
   };
 }
 
