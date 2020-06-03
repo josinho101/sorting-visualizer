@@ -4,6 +4,7 @@ import QuickSortEngine from "./quicksortengine";
 import BubbleSortEngine from "./bubblesortengine";
 import ItemElementMap from "./typings/itemelementmap";
 import SortOptions from "../../components/stage/typings/sortoptions";
+import SortingHelper from "./sortinghelper";
 
 class SortingEngine {
   // holds array to sort
@@ -21,32 +22,12 @@ class SortingEngine {
   }
 
   /**
-   * Get all DOM elements to sort
-   */
-  private getItems = (options: SortOptions) => {
-    let itemContainer = document.getElementsByClassName("item-container")[0];
-    let items = itemContainer.getElementsByTagName("div");
-
-    if (items.length !== this.arrayToSort.length) {
-      throw new Error("DOM element count not matching with array to sort");
-    }
-
-    let speed = options.getSortingSpeed() / 1000;
-    for (let i = 0; i < items.length; i++) {
-      items[i].style.transition = `transform ${speed}s`;
-    }
-
-    return items;
-  };
-
-  /**
    * Map DOM elements with array to sort based on index
    */
-  private mapArrayWithDOMElements = (
-    options: SortOptions
-  ): ItemElementMap[] => {
+  private mapArrayWithDOMElements = (): ItemElementMap[] => {
     let map: ItemElementMap[] = [];
-    let items = this.getItems(options);
+    let items = SortingHelper.getSortableUIItems();
+
     map = this.arrayToSort.map((item: number, index: number) => {
       let newItem: ItemElementMap = {
         value: item,
@@ -64,7 +45,7 @@ class SortingEngine {
    */
   public sort = async (algorithm: enums.Algorithms, options: SortOptions) => {
     let engine: ISortEngine;
-    let mappedArray = this.mapArrayWithDOMElements(options);
+    let mappedArray = this.mapArrayWithDOMElements();
 
     switch (algorithm) {
       case enums.Algorithms.BubbleSort:

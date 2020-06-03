@@ -56,8 +56,14 @@ class Stage extends React.Component<Props, State> {
     this.sortingAlgorithm = enums.Algorithms.BubbleSort;
     this.resetDone = true;
     this.setItemWidth();
-    this.setSortingSpeed();
     this.generateRandomArray();
+  }
+
+  /**
+   * component did mount for stage
+   */
+  public componentDidMount() {
+    this.setSortingSpeed();
   }
 
   /**
@@ -211,6 +217,24 @@ class Stage extends React.Component<Props, State> {
     this.sortingSpeed = SortingHelper.getSortingSpeed(
       index === 0 ? settings.sortingSpeed.default : index
     );
+
+    this.setTransitionForSortableItems();
+  };
+
+  /**
+   * set transition for sortable items
+   */
+  private setTransitionForSortableItems = () => {
+    let sortableItems = SortingHelper.getSortableUIItems();
+    let speed = this.sortingSpeed / 1000;
+
+    if (sortableItems.length !== this.arrayToSort.length) {
+      throw new Error("DOM element count not matching with array to sort");
+    }
+
+    for (let i = 0; i < this.arrayToSort.length; i++) {
+      sortableItems[i].style.transition = `transform ${speed}s`;
+    }
   };
 }
 

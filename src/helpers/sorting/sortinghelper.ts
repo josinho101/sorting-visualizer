@@ -64,6 +64,16 @@ class SortingHelper {
       };
     });
   };
+
+  /**
+   * return sortable items in UI
+   */
+  public static getSortableUIItems = () => {
+    let itemContainer = document.getElementsByClassName("item-container")[0];
+    let items = itemContainer.getElementsByTagName("div");
+
+    return items;
+  };
 }
 
 export default SortingHelper;
