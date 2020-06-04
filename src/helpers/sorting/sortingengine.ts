@@ -1,10 +1,11 @@
 import * as enums from "../../enums";
 import ISortEngine from "./isortengine";
+import SortingHelper from "./sortinghelper";
 import QuickSortEngine from "./quicksortengine";
+import MergeSortEngine from "./mergesortengine";
 import BubbleSortEngine from "./bubblesortengine";
 import ItemElementMap from "./typings/itemelementmap";
 import SortOptions from "../../components/stage/typings/sortoptions";
-import SortingHelper from "./sortinghelper";
 
 class SortingEngine {
   // holds array to sort
@@ -53,6 +54,9 @@ class SortingEngine {
         break;
       case enums.Algorithms.QuickSort:
         engine = new QuickSortEngine(mappedArray, options);
+        break;
+      case enums.Algorithms.MergeSort:
+        engine = new MergeSortEngine(mappedArray, options);
         break;
       default:
         throw new Error(`Algorithm with id ${algorithm} not yet implemented`);
