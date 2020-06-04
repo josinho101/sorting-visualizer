@@ -23,6 +23,9 @@ var settings = {
       current: "#f73838",
       default: "#01d0df",
     },
+    mergeSort: {
+      sorted: "#7bd475",
+    },
   },
 };
 

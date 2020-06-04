@@ -34,6 +34,7 @@ class SortingEngine {
         value: item,
         element: items[index],
         totalTranlation: 0,
+        previousIndex: index,
       };
       return newItem;
     });
