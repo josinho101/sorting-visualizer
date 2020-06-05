@@ -24,7 +24,7 @@ class BubbleSortEngine implements ISortEngine {
    */
   public sort = async () => {
     let n = this.array.length - 1;
-    let color = appsettings.itemColor.bubbleSort;
+    let color = appsettings.itemColor;
 
     for (let i = 0; i <= n; i++) {
       if (i < n) {
@@ -32,15 +32,19 @@ class BubbleSortEngine implements ISortEngine {
           let item1 = this.array[j];
           let item2 = this.array[j + 1];
 
+          item1.element.style.backgroundColor = color.current;
+
           if (item1.value > item2.value) {
+            await SortingHelper.sleep(this.options.getSortingSpeed());
+
             //swap items
             SortingHelper.swap(this.array, j, j + 1);
 
             // swap ui items
             await this.swapInUI(item1, item2);
-
-            await SortingHelper.sleep(this.options.getSortingSpeed());
           }
+
+          item1.element.style.backgroundColor = color.default;
         }
       }
 

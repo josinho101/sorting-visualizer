@@ -78,10 +78,13 @@ class QuickSortEngine implements ISortEngine {
     }
 
     await SortingHelper.sleep(this.options.getSortingSpeed());
+
     // swap items in UI
     await this.swapInUI(array, low, end);
     // swap pivot with end
     SortingHelper.swap(array, low, end);
+
+    array[end].element.style.backgroundColor = appsettings.itemColor.sorted;
 
     return end;
   };
@@ -112,7 +115,7 @@ class QuickSortEngine implements ISortEngine {
    * set specified from - to index as sorted
    */
   private setAsSorted = (array: ItemElementMap[], from: number, to: number) => {
-    let sortedColor = appsettings.itemColor.quickSort.sorted;
+    let sortedColor = appsettings.itemColor.sorted;
     let sortedItems = array.slice(from, to + 1);
     sortedItems.forEach((item: ItemElementMap) => {
       item.element.style.backgroundColor = sortedColor;

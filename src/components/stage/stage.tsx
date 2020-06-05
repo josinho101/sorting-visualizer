@@ -131,7 +131,8 @@ class Stage extends React.Component<Props, State> {
    */
   private onAlgorithmSelected = (algorithm: enums.Algorithms) => {
     this.sortingAlgorithm = algorithm;
-    this.setState({ renderedOn: Date.now() });
+    this.arrayToSort = [...this.rawArray.slice(0, this.itemCount)];
+    this.setStateToRemoveItems();
   };
 
   /**
@@ -156,16 +157,23 @@ class Stage extends React.Component<Props, State> {
   };
 
   /**
-   * reset array
+   * set state to remove and rerender items on stage
    */
-  private reset = () => {
+  private setStateToRemoveItems = () => {
     this.resetDone = true;
-    this.generateRandomArray();
     this.setState({ removeItems: true }, () => {
       setTimeout(() => {
         this.setState({ removeItems: false });
       }, 10);
     });
+  };
+
+  /**
+   * reset array
+   */
+  private reset = () => {
+    this.generateRandomArray();
+    this.setStateToRemoveItems();
   };
 
   /**

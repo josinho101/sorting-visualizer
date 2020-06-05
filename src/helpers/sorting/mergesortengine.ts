@@ -18,6 +18,16 @@ class MergeSortEngine implements ISortEngine {
     this.array = array;
     this.options = options;
   }
+
+  /**
+   * sort and visualize the array sorting
+   */
+  public sort = async () => {
+    let low = 0;
+    let high = this.array.length - 1;
+    await this.mergeSort(this.array, low, high);
+  };
+
   /**
    * merge sort items
    */
@@ -76,7 +86,7 @@ class MergeSortEngine implements ISortEngine {
 
     let filteredArray = newArray.filter((i) => i !== null);
     let isLastMerge = array.length === filteredArray.length;
-    let color = appsettings.itemColor.mergeSort;
+    let color = appsettings.itemColor;
 
     for (k = low; k <= high; k++) {
       array[k] = newArray[k];
@@ -88,15 +98,6 @@ class MergeSortEngine implements ISortEngine {
         array[k].element.style.backgroundColor = color.sorted;
       }
     }
-  };
-
-  /**
-   * sort and visualize the array sorting
-   */
-  public sort = async () => {
-    let low = 0;
-    let high = this.array.length - 1;
-    await this.mergeSort(this.array, low, high);
   };
 }
 
