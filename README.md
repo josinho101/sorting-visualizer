@@ -1,6 +1,6 @@
 # Sorting visualizer
 
-Visualise different sorting algorithms
+Visualize different sorting algorithms
 
 ### How to run
 
