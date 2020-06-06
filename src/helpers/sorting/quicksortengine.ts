@@ -37,11 +37,17 @@ class QuickSortEngine implements ISortEngine {
     high: number
   ) => {
     if (low < high) {
+      // find the partiotion index, divide array to two
       let partitionIndex = await this.partition(array, low, high);
+
+      // sort first half, low to partiotion index - 1
       await this.quickSort(array, low, partitionIndex - 1);
+      // after sorting set first half as sorted
       this.setAsSorted(array, low, partitionIndex);
 
+      // sort second half, partiotion index + 1 to high
       await this.quickSort(array, partitionIndex + 1, high);
+      // after sorting set second half as sorted
       this.setAsSorted(array, partitionIndex, high);
     }
   };
@@ -54,19 +60,25 @@ class QuickSortEngine implements ISortEngine {
     low: number,
     high: number
   ) => {
-    let pivot = array[low].value;
     let start = low;
     let end = high;
 
+    // set a value as pivot, this implementation use low as pivot
+    let pivot = array[low].value;
+
     while (start < end) {
+      // find an element that is larger than pivot element
       while (array[start].value <= pivot && start < end) {
         start++;
       }
 
+      // find an element that is smaller than pivot element
       while (array[end].value > pivot) {
         end--;
       }
 
+      // after finding smaller and larger element, swap those items
+      // smaller element to left and larger to right of pivot
       if (start < end) {
         await SortingHelper.sleep(this.options.getSortingSpeed());
         // swap items in UI
@@ -80,7 +92,8 @@ class QuickSortEngine implements ISortEngine {
 
     // swap items in UI
     await this.swapInUI(array, low, end);
-    // swap pivot with end
+    // If start and end corss eachother then we need to swap
+    // pivot element with end element
     SortingHelper.swap(array, low, end);
 
     array[end].element.style.backgroundColor = appsettings.itemColor.sorted;

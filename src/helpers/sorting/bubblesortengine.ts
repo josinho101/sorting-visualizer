@@ -26,6 +26,12 @@ class BubbleSortEngine implements ISortEngine {
     let n = this.array.length - 1;
     let color = appsettings.itemColor;
 
+    /**
+     * Iterate through each element and check if the current element is larger than
+     * next element. if current element is larger than next element, then swap current
+     * element with next element. after first iteration, last element will be in sorted
+     * position.
+     */
     for (let i = 0; i <= n; i++) {
       if (i < n) {
         for (let j = 0; j < n - i; j++) {
