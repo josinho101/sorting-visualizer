@@ -16,6 +16,14 @@ npm start
 
 ### Screenshot
 
+#### Before sorting
+
 ![Screen](./screenshots/1.PNG)
 
+#### Ongoing sorting
 
+![Screen](./screenshots/2.PNG)
+
+#### Sorting completed
+
+![Screen](./screenshots/3.PNG)
