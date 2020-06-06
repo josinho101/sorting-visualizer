@@ -9,7 +9,6 @@ interface Props {
   sortingInProgress: boolean;
   resetArray: (event: React.MouseEvent<HTMLElement>) => void;
   startSorting: (event: React.MouseEvent<HTMLElement>) => void;
-  stopSorting: (event: React.MouseEvent<HTMLElement>) => void;
   onItemWidthChange: (event: React.ChangeEvent<HTMLElement>) => void;
   onSortingSpeedChange: (event: React.ChangeEvent<HTMLElement>) => void;
   onAlgorithmSelected: (algorithm: enums.Algorithms) => void;
@@ -88,14 +87,6 @@ const StageControls: React.SFC<Props> = (props) => {
               disabled={props.sortingInProgress}
             >
               Start
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={props.stopSorting}
-              className="btn btn-danger navbar-btn right-margin16px"
-            >
-              Stop
             </button>
           </li>
           <li className="range">

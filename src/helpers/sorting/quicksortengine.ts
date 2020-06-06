@@ -38,7 +38,6 @@ class QuickSortEngine implements ISortEngine {
   ) => {
     if (low < high) {
       let partitionIndex = await this.partition(array, low, high);
-
       await this.quickSort(array, low, partitionIndex - 1);
       this.setAsSorted(array, low, partitionIndex);
 
